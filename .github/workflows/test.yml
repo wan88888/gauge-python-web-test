@@ -22,6 +22,7 @@ jobs:
       - name: Install Gauge
         run: |
           curl -SsL https://downloads.gauge.org/stable | sh
+          echo "PATH=$HOME/.gauge/bin:$PATH" >> $GITHUB_ENV
           gauge --version
           gauge telemetry off
           gauge install python
@@ -37,10 +38,21 @@ jobs:
           pip install playwright
           playwright install chromium
           
+      - name: Check environment directories
+        run: |
+          echo "Listing env directory:"
+          ls -la env/
+          echo "Listing ci environment:"
+          ls -la env/ci/
+          echo "Contents of ci default.properties:"
+          cat env/ci/default.properties
+          echo "Contents of ci python.properties:"
+          cat env/ci/python.properties
+          
       - name: Run Gauge specs
         run: |
           mkdir -p reports logs screenshots
-          gauge run specs/ --env ci
+          gauge run specs/ -v --env ci
         env:
           HEADLESS: true
           BROWSER: chromium
