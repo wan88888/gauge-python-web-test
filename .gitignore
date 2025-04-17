@@ -1,0 +1,60 @@
+# Gauge - metadata dir
+.gauge
+
+# Gauge - log files dir
+logs
+
+# Gauge - reports dir
+reports
+
+# Gauge - python compiled files
+*.pyc
+
+# Python虚拟环境
+venv/
+env/
+ENV/
+.env
+.venv
+
+# Python编译文件
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# 测试结果和报告
+reports/
+logs/
+results/
+screenshots/
+.gauge/
+trace.zip
+
+# IDE和编辑器文件
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+*~
+.coverage
+htmlcov/
+
+# Playwright浏览器
+node_modules/
+.playwright/
+playwright-report/
+test-results/
+
+# 依赖管理文件
+pip-log.txt
+pip-delete-this-directory.txt
+
+# 本地配置文件
+*.local.yaml
+*.local.yml
+*.local.json
+*.local.properties
+

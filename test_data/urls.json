@@ -1,0 +1,5 @@
+{
+    "base_url": "http://the-internet.herokuapp.com",
+    "login_url": "http://the-internet.herokuapp.com/login",
+    "secure_url": "http://the-internet.herokuapp.com/secure"
+} 
