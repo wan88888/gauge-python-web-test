@@ -13,12 +13,18 @@ jobs:
     
     steps:
       - uses: actions/checkout@v3
+      
+      - name: Check workspace structure
+        run: |
+          echo "Current directory: $(pwd)"
+          echo "Directory contents:"
+          ls -la
           
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.11'
-          
+            
       - name: Install Gauge
         run: |
           curl -SsL https://downloads.gauge.org/stable | sh
@@ -27,26 +33,53 @@ jobs:
           gauge telemetry off
           gauge install python
           gauge install html-report
-          
+            
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-          
+            
       - name: Install Playwright
         run: |
           pip install playwright
           playwright install chromium
-          
-      - name: Check environment directories
+      
+      - name: Create environment directories
         run: |
-          echo "Listing env directory:"
+          # 创建必要的环境目录
+          mkdir -p env/ci
+          echo "Created directories:"
+          ls -la
           ls -la env/
-          echo "Listing ci environment:"
-          ls -la env/ci/
-          echo "Contents of ci default.properties:"
+          
+          # 创建CI环境配置文件
+          cat > env/ci/default.properties << 'EOL'
+          # CI环境配置
+          
+          # 浏览器配置
+          BROWSER=chromium
+          HEADLESS=true
+          SLOW_MO=0
+          VIEWPORT_WIDTH=1366
+          VIEWPORT_HEIGHT=768
+          TRACE=false
+          MAXIMIZED=true
+          
+          # 报告配置
+          overwrite_reports=true
+          screenshot_on_failure=true
+          EOL
+          
+          # 创建Python属性文件
+          cat > env/ci/python.properties << 'EOL'
+          GAUGE_PYTHON_COMMAND = python
+          
+          # Comma seperated list of dirs. path should be relative to project root.
+          STEP_IMPL_DIR = step_impl
+          EOL
+          
+          echo "Created config files:"
           cat env/ci/default.properties
-          echo "Contents of ci python.properties:"
           cat env/ci/python.properties
           
       - name: Run Gauge specs
@@ -57,7 +90,7 @@ jobs:
           HEADLESS: true
           BROWSER: chromium
           MAXIMIZED: true
-          
+            
       - name: Upload reports
         uses: actions/upload-artifact@v4
         if: always()

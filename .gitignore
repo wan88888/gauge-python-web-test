@@ -12,10 +12,20 @@ reports
 
 # Python虚拟环境
 venv/
-env/
-ENV/
 .env
 .venv
+**/env/bin/
+**/env/include/
+**/env/lib/
+**/env/lib64/
+**/env/share/
+**/env/pyvenv.cfg
+
+# 确保Gauge环境配置不被忽略
+!env/
+!env/*/
+!env/*/default.properties
+!env/*/python.properties
 
 # Python编译文件
 __pycache__/
